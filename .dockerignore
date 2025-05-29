@@ -1,0 +1,7 @@
+.git
+.venv
+settings.example.yml
+.__pycache__
+**/idea/
+.idea
+.cache

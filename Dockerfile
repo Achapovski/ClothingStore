@@ -1,7 +1,7 @@
 FROM python:3.12.0
 
 ENV HOME=/home/FastAPI \
-    APP_HOME=/home/FastAPI/app \
+    APP_HOME=/home/FastAPI/src \
     PYTHONPATH="$PYTHONPATH:/home/FastAPI" \
     PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1
@@ -11,10 +11,16 @@ WORKDIR $HOME
 
 COPY poetry.lock pyproject.toml $HOME
 
+RUN pip install --upgrade pip
 RUN pip install poetry
+RUN poetry self update
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-root
 
-COPY app $APP_HOME
+COPY config.yml $HOME
+COPY alembic.ini $HOME
+COPY alembic $HOME/alembic
+
+COPY src $APP_HOME
 
 USER fast

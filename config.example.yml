@@ -1,0 +1,31 @@
+db:
+  CONNECTION: "postgresql+asyncpg"
+  USER: user
+  PASSWORD: "password"
+  HOST: localhost
+  PORT: 5432
+  DATABASE: database_name
+  IS_ECHO: "no"
+
+redis:
+  HOST: "localhost"
+  PORT: 6379
+  DB_DEFAULT_NUMBER: 0
+  DB_STORAGE_NUMBER: 1
+  DB_STATE_NUMBER: 2
+
+jwt:
+  ALGORITHM: "HS256"
+  SECRET_KEY: "saijga90wjfq083j983jaj8whf0ajw9f80j2380fj3f8qjf923if08qh3fj0j93f08wjf03w9j3f0w8"
+
+registration:
+  google:
+    GOOGLE_CLIENT_ID: "sf9ajw9fj239fu238fj98j3f08sjf0w8jht803j0283j.apps.googleusercontent.com"
+    GOOGLE_SECRET_KEY: "ork03j083sj30s8h80329j3u9fejgs0ejg"
+    GOOGLE_REDIRECT_URI: "http://localhost:8000/auth/google"
+    GOOGLE_TOKEN_URL: "https://accounts.google.com/o/oauth2/token"
+  yandex:
+    YANDEX_CLIENT_ID: "sugahs8798ga9s7ghhajs8yfhu3u9hfj9uhf"
+    YANDEX_CLIENT_SECRET: "aifuawyhf83h79f2h39yhaeh0g8sjgs08"
+    YANDEX_REDIRECT_URI: "http://localhost:8000/auth/yandex"
+    YANDEX_TOKEN_URL: "https://oauth.yandex.ru/token"

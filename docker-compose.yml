@@ -1,10 +1,24 @@
 services:
   fastapi:
-    container_name: Fastapi
+    container_name: FastAPI
+    hostname: fastapi
     build:
       context: .
       dockerfile: Dockerfile
-    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn src.main:app --host 0.0.0.0 --port 8000
+    env_file:
+      - .env
     ports:
       - "8000:8000"
     restart: always
+
+  postgresql:
+    container_name: DataBase
+    hostname: database
+    image: postgres:16
+    environment:
+      - POSTGRES_USER=${DATABASE_USER}
+      - POSTGRES_PASSWORD=${DATABASE_PASSWORD}
+      - POSTGRES_DB=${DATABASE_NAME}
+    env_file:
+      - .env
