@@ -10,7 +10,7 @@ async def get_carts_unit_of_work() -> SQLAlchemyCartsUnitOfWork:
     return SQLAlchemyCartsUnitOfWork()
 
 
-async def get_cart_domain_service(
+async def get_domain_cart_service(
         uow: Annotated[SQLAlchemyCartsUnitOfWork, Depends(get_carts_unit_of_work)]
 ) -> CartDomainService:
     return CartDomainService(uow=uow)

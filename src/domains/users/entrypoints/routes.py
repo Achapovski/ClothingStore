@@ -13,17 +13,17 @@ router = APIRouter(prefix="/users", tags=["Users"])
 
 # TODO: Адаптировать преобразование модели в DTO (Можно попробовать запихнуть это в абстрактную предметную модель)
 
-@router.get(
-    path="/{user_id}",
-    response_model=UserProfileDTO,
-    status_code=status.HTTP_200_OK
-)
-async def get_user(
-        user_id: UUID,
-        user_service: Annotated[UserDomainService, Depends(get_domain_user_service)]
-) -> UserProfileDTO:
-    user = await user_service.get_user(id_=user_id)
-    return UserProfileDTO(**user.model_dump())
+# @router.get(
+#     path="/{user_id}",
+#     response_model=UserProfileDTO,
+#     status_code=status.HTTP_200_OK
+# )
+# async def get_user(
+#         user_id: UUID,
+#         user_service: Annotated[UserDomainService, Depends(get_domain_user_service)]
+# ) -> UserProfileDTO:
+#     user = await user_service.get_user(id_=user_id)
+#     return UserProfileDTO(**user.model_dump())
 
 
 @router.delete(

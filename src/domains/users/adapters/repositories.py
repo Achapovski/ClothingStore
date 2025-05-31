@@ -30,6 +30,12 @@ class SQLAlchemyUsersRepository(SQLAlchemyAbstractRepository, UsersAbstractRepos
         )
         return self._get_domain_model_or_none(data=result, model=UserModel)
 
+    async def get_by_login(self, login: str) -> Optional[UserModel]:
+        result: Result = await self.session.execute(
+            select(User).where(User.login == login)
+        )
+        return self._get_domain_model_or_none(data=result, model=UserModel)
+
     async def get_full(self, id_: UUID) -> Optional[UserRelationshipModel]:
         result: Result = await self.session.execute(
             select(User).where(User.id == id_).options(joinedload(User.wishlist), joinedload(User.cart))

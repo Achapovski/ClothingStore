@@ -2,9 +2,6 @@ from pydantic import BaseModel, SecretStr, Field, PostgresDsn, RedisDsn
 from pydantic_settings import BaseSettings
 
 
-# TODO: Автоматизировать через мета-класс model-config
-
-
 class DataBase(BaseSettings):
     CONNECTION: str
     USER: SecretStr

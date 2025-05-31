@@ -1,3 +1,4 @@
+from typing import Optional
 from uuid import UUID
 
 from pydantic import EmailStr
@@ -10,32 +11,37 @@ class UserDomainService:
     def __init__(self, uow: UsersUnitOfWork):
         self._uow: UsersUnitOfWork = uow
 
-    async def create_user(self, user: UserCreateModel) -> UserModel:
+    async def create_user(self, user: UserCreateModel) -> Optional[UserModel]:
         async with self._uow as uow:
             user = await uow.users.add(model=user)
         return user
 
-    async def get_user(self, id_: UUID) -> UserModel:
+    async def get_user(self, id_: UUID) -> Optional[UserModel]:
         async with self._uow as uow:
             user = await uow.users.get(id_=id_)
         return user
 
-    async def get_user_by_email(self, email: EmailStr) -> UserModel:
+    async def get_user_by_login(self, login: str) -> Optional[UserModel]:
+        async with self._uow as uow:
+            user = await uow.users.get_by_login(login=login)
+        return user
+
+    async def get_user_by_email(self, email: EmailStr) -> Optional[UserModel]:
         async with self._uow as uow:
             user = await uow.users.get_by_email(email=email)
-            return user
+        return user
 
     async def get_user_full_data(self, id_: UUID) -> UserRelationshipModel:
         async with self._uow as uow:
             user = await uow.users.get_full(id_=id_)
-            return user
+        return user
 
-    async def update_user(self, id_: UUID, data: UserUpdateModel) -> UserModel:
+    async def update_user(self, id_: UUID, data: UserUpdateModel) -> Optional[UserModel]:
         async with self._uow as uow:
             user = await uow.users.update(id_=id_, data=data.model_dump())
-            return user
+        return user
 
     async def delete_user(self, id_: UUID) -> bool:
         async with self._uow as uow:
             result: bool = await uow.users.delete(id_=id_)
-            return result
+        return result

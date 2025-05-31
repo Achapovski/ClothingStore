@@ -18,6 +18,10 @@ class UsersAbstractRepository(AbstractRepository, ABC):
         raise NotImplementedError
 
     @abstractmethod
+    async def get_by_login(self, login: str) -> Optional[UserModel]:
+        raise NotImplementedError
+
+    @abstractmethod
     async def get_full(self, id_: UUID) -> UserRelationshipModel:
         raise NotImplementedError
 

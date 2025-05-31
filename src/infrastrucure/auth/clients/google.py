@@ -1,0 +1,2 @@
+class GoogleAuthClient:
+    pass
