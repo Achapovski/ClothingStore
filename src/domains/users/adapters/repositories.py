@@ -6,6 +6,7 @@ from sqlalchemy import Result, insert, select, delete, update
 from sqlalchemy.orm import joinedload
 
 from src.core.database.interfaces.repositories import SQLAlchemyAbstractRepository
+from src.core.security.config import base_auth_config
 from src.domains.users.domain.models import UserModel, UserCreateModel, UserRelationshipModel
 from src.domains.users.adapters.models import User
 from src.domains.users.interfaces.repositories import UsersAbstractRepository
@@ -13,8 +14,9 @@ from src.domains.users.interfaces.repositories import UsersAbstractRepository
 
 class SQLAlchemyUsersRepository(SQLAlchemyAbstractRepository, UsersAbstractRepository):
     async def add(self, model: UserCreateModel) -> Optional[UserModel]:
+        password = base_auth_config.crypt_context.hash(model.password)
         result: Result = await self.session.execute(
-            insert(User).values(id=uuid4(), **model.model_dump()).returning(User)
+            insert(User).values(id=uuid4(), password=password, **model.model_dump(exclude={"password"})).returning(User)
         )
         return self._get_domain_model_or_none(data=result, model=UserModel)
 

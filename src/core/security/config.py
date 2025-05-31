@@ -5,7 +5,7 @@ from pydantic import Field, computed_field
 
 
 class BaseAuthConfig(BaseSettings):
-    TOKEN_URL: str
+    TOKEN_URL: str = "users/login"
     SCHEMES: list[str] = Field(default_factory=lambda: ["bcrypt"])
     DEPRECATED: str = Field(default="auto")
 

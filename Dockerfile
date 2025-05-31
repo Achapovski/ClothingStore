@@ -11,10 +11,10 @@ WORKDIR $HOME
 
 COPY poetry.lock pyproject.toml $HOME
 
-RUN pip install --upgrade pip
 RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry install --no-root
+RUN pip install --upgrade pip
 RUN poetry self update
 
 COPY config.yml $HOME

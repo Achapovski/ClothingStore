@@ -14,7 +14,7 @@ class AuthService:
 
     async def login(self, user_login: str, password: str):
         user = await self.user_service.get_user_by_login(login=user_login)
-        await self._validate_auth_user(user_password=password, user_hashed_password=user.password.get_secret_value())
+        await self._validate_auth_user(user_password=password, user_hashed_password=user.password)
         jwt_data = JWTDataModel(user_id=user.id)
         access_token = await self.generate_access_token(payload=jwt_data)
         return access_token

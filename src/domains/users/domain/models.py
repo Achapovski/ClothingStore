@@ -3,12 +3,10 @@ from decimal import Decimal
 from uuid import UUID
 from typing import ForwardRef
 
-from pydantic import Field, EmailStr, BaseModel, SecretStr, field_serializer
+from pydantic import Field, EmailStr, BaseModel
 
 from src.core.interfaces.models import AbstractModel
 from src.domains.products.domain.models import ProductModel
-
-# from src.domains.wishlists.domain.models import WishlistModelDTO, WishlistModel
 
 CartModel = ForwardRef("CartModel")
 WishlistModel = ForwardRef("WishlistModel")
@@ -18,7 +16,7 @@ class UserModel(BaseModel, AbstractModel):
     id: UUID
     login: str
     username: str
-    password: SecretStr
+    password: str
     email: EmailStr
     phone_number: str | None
     personal_discount: Decimal
@@ -47,12 +45,8 @@ class UserRelationshipModel(BaseModel, AbstractModel):
 class UserRegisterModelDTO(BaseModel):
     login: str = Field(default="Anonymous")
     username: str
-    password: SecretStr
+    password: str
     email: EmailStr
-
-    @field_serializer("password")
-    def password_serializer(self, value: SecretStr):
-        return value.get_secret_value()
 
 
 class UserCreateModel(UserRegisterModelDTO):
@@ -62,7 +56,7 @@ class UserCreateModel(UserRegisterModelDTO):
 
 class UserLoginModelDTO(BaseModel):
     login: str
-    password: SecretStr
+    password: str
 
 
 class UserProfileDTO(BaseModel):
@@ -87,14 +81,6 @@ class UserUpdateDTO(UserUpdateModel):
 
 class UserWishlistDTO(UserCartDTO):
     pass
-
-
-# class UserModelDTO(BaseModel):
-#     id: UUID
-#     login: str
-#     email: EmailStr
-#     cart: list[ProductModel] = Field()
-#     wishlist: list[ProductModel] = Field()
 
 
 class UserModelRel(UserModel):
