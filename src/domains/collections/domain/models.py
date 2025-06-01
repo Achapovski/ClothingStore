@@ -6,10 +6,10 @@ from src.core.interfaces.models import AbstractModel
 
 
 class CollectionModel(BaseModel, AbstractModel):
-    title: str = Field(min_length=3, max_length=30)
+    title: str = Field(min_length=3, max_length=45)
     description: str = Field(default=str())
 
 
 class CollectionModelDTO(BaseModel):
-    title: str = Field(min_length=3, max_length=30)
+    title: str = Field(min_length=3, max_length=45)
     description: str = Field(default=str())

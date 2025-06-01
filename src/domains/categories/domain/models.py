@@ -8,11 +8,11 @@ from src.domains.products.domain.models import ProductModel
 
 class CategoryModel(BaseModel, AbstractModel):
     id: UUID
-    title: str = Field(min_length=3, max_length=15)
+    title: str = Field(min_length=3, max_length=35)
 
 
 class CategoryCreateModel(BaseModel, AbstractModel):
-    title: str = Field(min_length=3, max_length=15)
+    title: str = Field(min_length=3, max_length=35)
 
 
 class CategoryCreateModelDTO(CategoryCreateModel):

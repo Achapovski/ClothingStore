@@ -1,3 +1,4 @@
+from functools import cached_property
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
 from pydantic_settings import BaseSettings
@@ -9,11 +10,13 @@ class BaseAuthConfig(BaseSettings):
     SCHEMES: list[str] = Field(default_factory=lambda: ["bcrypt"])
     DEPRECATED: str = Field(default="auto")
 
-    @computed_field()
+    @computed_field
+    @cached_property
     def oauth2_password(self) -> OAuth2PasswordBearer:
         return OAuth2PasswordBearer(tokenUrl=f"{self.TOKEN_URL}")
 
-    @computed_field()
+    @computed_field
+    @cached_property
     def crypt_context(self) -> CryptContext:
         return CryptContext(schemes=self.SCHEMES, deprecated=self.DEPRECATED)
 
@@ -34,10 +37,10 @@ class JWTConfig(BaseSettings):
     }
 
 
-class AuthConfig(BaseSettings):
-    base_auth_config: BaseAuthConfig = JWTConfig()
-    jwt_config: JWTConfig = JWTConfig()
-
-
 jwt_config = JWTConfig()
 base_auth_config = BaseAuthConfig()
+
+
+class AuthConfig(BaseSettings):
+    base_auth_config: BaseAuthConfig = base_auth_config
+    jwt_config: JWTConfig = jwt_config

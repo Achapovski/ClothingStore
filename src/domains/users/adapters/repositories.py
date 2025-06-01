@@ -14,9 +14,8 @@ from src.domains.users.interfaces.repositories import UsersAbstractRepository
 
 class SQLAlchemyUsersRepository(SQLAlchemyAbstractRepository, UsersAbstractRepository):
     async def add(self, model: UserCreateModel) -> Optional[UserModel]:
-        password = base_auth_config.crypt_context.hash(model.password)
         result: Result = await self.session.execute(
-            insert(User).values(id=uuid4(), password=password, **model.model_dump(exclude={"password"})).returning(User)
+            insert(User).values(id=uuid4(), **model.model_dump()).returning(User)
         )
         return self._get_domain_model_or_none(data=result, model=UserModel)
 

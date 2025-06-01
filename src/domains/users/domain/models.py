@@ -3,9 +3,10 @@ from decimal import Decimal
 from uuid import UUID
 from typing import ForwardRef
 
-from pydantic import Field, EmailStr, BaseModel
+from pydantic import Field, EmailStr, BaseModel, field_serializer
 
 from src.core.interfaces.models import AbstractModel
+from src.core.security.config import base_auth_config
 from src.domains.products.domain.models import ProductModel
 
 CartModel = ForwardRef("CartModel")

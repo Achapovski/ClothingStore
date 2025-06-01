@@ -13,12 +13,12 @@ from src.core.interfaces.models import AbstractModel
 
 class ProductModel(BaseModel, AbstractModel):
     id: UUID
-    title: str = Field(min_length=3, max_length=35)
+    title: str = Field(min_length=3, max_length=45)
     description: str = Field(default="")
-    type: str = Field(min_length=3, max_length=20)
-    color: str = Field(min_length=3, max_length=20)
+    type: str = Field(min_length=3, max_length=35)
+    color: str = Field(min_length=3, max_length=25)
     price: Decimal = Field(ge=Decimal("1.0"))
-    material: str = Field(min_length=2, max_length=25)
+    material: str = Field(min_length=3, max_length=45)
     discount: Decimal = Field(default=Decimal("0.0"))
     image_url: AnyHttpUrl | str = Field()
     category_title: str

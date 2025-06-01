@@ -14,6 +14,6 @@ class Category(Base):
     __tablename__ = "categories"
 
     id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, unique=True, index=True)
-    title: Mapped[str] = mapped_column(VARCHAR(15), nullable=False, unique=True)
+    title: Mapped[str] = mapped_column(VARCHAR(35), nullable=False, unique=True)
 
     products: Mapped[list["Product"]] = relationship("Product", back_populates="category", lazy="noload", uselist=True)

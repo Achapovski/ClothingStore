@@ -3,6 +3,7 @@ from uuid import UUID
 
 from pydantic import EmailStr
 
+from src.core.security.config import base_auth_config
 from src.domains.users.domain.models import UserModel, UserCreateModel, UserUpdateModel, UserRelationshipModel
 from src.domains.users.interfaces.units_of_work import UsersUnitOfWork
 
@@ -13,6 +14,7 @@ class UserDomainService:
 
     async def create_user(self, user: UserCreateModel) -> Optional[UserModel]:
         async with self._uow as uow:
+            user.password = base_auth_config.crypt_context.hash(user.password)
             user = await uow.users.add(model=user)
         return user
 
