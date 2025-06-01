@@ -5,7 +5,7 @@ from src.settings.schemes import Settings
 
 
 @lru_cache()
-def get_settings(config_file_name: str = "config.yml") -> Settings:
+def get_settings(config_file_name: str = "local.config.yml") -> Settings:
     with open(f"{config_file_name}") as file:
         data = safe_load(stream=file)
     return Settings.model_validate(data)

@@ -2,7 +2,7 @@ import uuid
 from decimal import Decimal
 from typing import ForwardRef
 
-from sqlalchemy import VARCHAR, UUID, TEXT, DECIMAL, ForeignKey
+from sqlalchemy import VARCHAR, UUID, TEXT, DECIMAL, ForeignKey, BOOLEAN
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from src.core.database.metadata import Base
@@ -26,6 +26,7 @@ class Product(Base):
     image_url: Mapped[str] = mapped_column(VARCHAR(255), nullable=False)
     category_title: Mapped[uuid.UUID] = mapped_column(ForeignKey("categories.title"), nullable=False)
     collection_title: Mapped[str] = mapped_column(ForeignKey("collections.title"), nullable=False, unique=False)
+    is_active: Mapped[True] = mapped_column(BOOLEAN, nullable=False, default=True)
 
     order_history: Mapped[list["OrderHistory"]] = relationship("OrderHistory", back_populates="product", lazy="noload")
     collection: Mapped["Collection"] = relationship("Collection", back_populates="products", lazy="noload")

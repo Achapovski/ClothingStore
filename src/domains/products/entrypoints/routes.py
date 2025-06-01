@@ -37,12 +37,24 @@ async def get_product(
     return ProductModelDTO(**product.model_dump())
 
 
+@router.get(
+    path="/",
+    response_model=list[ProductModelDTO],
+    status_code=status.HTTP_200_OK
+)
+async def get_product_list(
+        product_service: Annotated[ProductDomainService, Depends(get_product_service)]
+) -> list[ProductModelDTO]:
+    products = await product_service.get_product_list()
+    return [ProductModelDTO(**product.model_dump()) for product in products]
+
+
 @router.patch(
     path="/{product_id}",
     response_model=ProductUpdateModelDTO,
     status_code=status.HTTP_200_OK
 )
-async def update_user(
+async def update_product(
         product_id: UUID,
         product: ProductUpdateModelDTO,
         product_service: Annotated[ProductDomainService, Depends(get_product_service)]

@@ -73,6 +73,14 @@ class SQLAlchemyProductsRepository(SQLAlchemyAbstractRepository, ProductsAbstrac
             return [ProductModelRel.model_validate(obj=obj, from_attributes=True) for obj in data]
         return []
 
+    async def get_list(self) -> list[ProductModel]:
+        result: Result = await self.session.execute(
+            select(Product).where(Product.is_active is True)
+        )
+        if data := result.scalars().all():
+            return [ProductModel.model_validate(obj=obj, from_attributes=True) for obj in data]
+        return []
+
     async def update(self, id_: uuid.UUID, data: dict) -> Optional[AbstractModel]:
         result: Result = await self.session.execute(
             update(Product).where(Product.id == id_).values(**data).returning(Product)

@@ -22,10 +22,10 @@ class User(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(UUID, primary_key=True, unique=True, index=True, nullable=False)
     username: Mapped[str] = mapped_column(VARCHAR(20), nullable=False)
-    login: Mapped[str] = mapped_column(VARCHAR(20), nullable=False)
+    login: Mapped[str] = mapped_column(VARCHAR(20), nullable=False, unique=True)
     password: Mapped[str] = mapped_column(VARCHAR(255), nullable=False)
-    email: Mapped[str] = mapped_column(VARCHAR(30), nullable=True)
-    phone_number: Mapped[str] = mapped_column(VARCHAR(15), nullable=True)
+    email: Mapped[str] = mapped_column(VARCHAR(30), nullable=True, unique=True)
+    phone_number: Mapped[str] = mapped_column(VARCHAR(15), nullable=True, unique=True)
     location: Mapped[str] = mapped_column(TEXT, nullable=True)
     personal_discount: Mapped[Decimal] = mapped_column(DECIMAL(3, 1), default=Decimal("0.0"))
     status: Mapped[Enum] = mapped_column(DBEnum(StatusEnum), default=StatusEnum.bronze)

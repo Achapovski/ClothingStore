@@ -8,6 +8,10 @@ from src.domains.products.domain.models import ProductModel
 
 class ProductsAbstractRepository(AbstractRepository, ABC):
     @abstractmethod
+    async def add(self, model: ProductModel) -> ProductModel:
+        raise NotImplementedError
+
+    @abstractmethod
     async def get_by_title(self, title: str) -> Optional[ProductModel]:
         raise NotImplementedError
 
@@ -32,11 +36,11 @@ class ProductsAbstractRepository(AbstractRepository, ABC):
         raise NotImplementedError
 
     @abstractmethod
-    async def get(self, id_: UUID) -> Optional[ProductModel]:
+    async def get_list(self):
         raise NotImplementedError
 
     @abstractmethod
-    async def add(self, model: ProductModel) -> ProductModel:
+    async def get(self, id_: UUID) -> Optional[ProductModel]:
         raise NotImplementedError
 
     @abstractmethod
