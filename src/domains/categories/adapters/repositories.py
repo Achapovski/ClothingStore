@@ -7,21 +7,21 @@ from sqlalchemy.orm import selectinload
 from src.domains.categories.adapters.models import Category
 from src.domains.categories.interfaces.repositories import CategoriesAbstractRepository
 from src.core.database.interfaces.repositories import SQLAlchemyAbstractRepository
-from src.domains.categories.domain.models import CategoryModel, CategoryModelDTO, CategoryModelDTORel
+from src.domains.categories.domain.models import CategoryModel, CategoryModelDTORel, CategoryCreateModel
 
 
 class SQLAlchemyCategoriesRepository(CategoriesAbstractRepository, SQLAlchemyAbstractRepository):
-    async def add(self, model: CategoryModel) -> Optional[CategoryModelDTO]:
+    async def add(self, model: CategoryCreateModel) -> Optional[CategoryModel]:
         result: Result = await self.session.execute(
             insert(Category).values(id=uuid4(), **model.model_dump()).returning(Category)
         )
-        return self._get_domain_model_or_none(data=result, model=CategoryModelDTO)
+        return self._get_domain_model_or_none(data=result, model=CategoryModel)
 
-    async def get(self, id_: UUID) -> Optional[CategoryModelDTO]:
+    async def get(self, id_: UUID) -> Optional[CategoryModel]:
         result: Result = await self.session.execute(
             select(Category).where(Category.id == id_)
         )
-        return self._get_domain_model_or_none(data=result, model=CategoryModelDTO)
+        return self._get_domain_model_or_none(data=result, model=CategoryModel)
 
     async def get_by_title(self, title: str) -> Optional[CategoryModel]:
         result: Result = await self.session.execute(
@@ -35,11 +35,11 @@ class SQLAlchemyCategoriesRepository(CategoriesAbstractRepository, SQLAlchemyAbs
         )
         return self._get_domain_model_or_none(data=result, model=CategoryModelDTORel)
 
-    async def update(self, id_: UUID, data: dict) -> Optional[CategoryModelDTO]:
+    async def update(self, id_: UUID, data: dict) -> Optional[CategoryModel]:
         result: Result = await self.session.execute(
             update(Category).values(**data).where(Category.id == id_).returning(Category)
         )
-        return self._get_domain_model_or_none(data=result, model=CategoryModelDTO)
+        return self._get_domain_model_or_none(data=result, model=CategoryModel)
 
     async def delete(self, id_: UUID) -> bool:
         result: Result = await self.session.execute(

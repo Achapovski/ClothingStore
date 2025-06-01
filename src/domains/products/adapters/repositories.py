@@ -75,7 +75,7 @@ class SQLAlchemyProductsRepository(SQLAlchemyAbstractRepository, ProductsAbstrac
 
     async def get_list(self) -> list[ProductModel]:
         result: Result = await self.session.execute(
-            select(Product).where(Product.is_active is True)
+            select(Product).where(Product.is_active)
         )
         if data := result.scalars().all():
             return [ProductModel.model_validate(obj=obj, from_attributes=True) for obj in data]

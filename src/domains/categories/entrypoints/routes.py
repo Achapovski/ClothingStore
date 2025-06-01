@@ -4,7 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
 from src.domains.categories.domain.models import CategoryModelDTO, CategoryModelDTORel, \
-    CategoryCreateModelDTO
+    CategoryCreateModelDTO, CategoryCreateModel, CategoryModel
 from src.domains.categories.entrypoints.dependencies import get_category_domain_service
 from src.domains.categories.services.service import CategoryService
 
@@ -20,8 +20,8 @@ async def create_category(
         category: CategoryCreateModelDTO,
         category_service: Annotated[CategoryService, Depends(get_category_domain_service)]
 ) -> CategoryModelDTO:
-    category = await category_service.create_category(model=category)
-    return category
+    category = await category_service.create_category(model=CategoryCreateModel(**category.model_dump()))
+    return CategoryModelDTO(**category.model_dump())
 
 
 # @router.get(
@@ -47,7 +47,7 @@ async def get_category(
         category_service: Annotated[CategoryService, Depends(get_category_domain_service)]
 ) -> CategoryModelDTO:
     category = await category_service.get_category(id_=category_id)
-    return category
+    return CategoryModelDTO(**category.model_dump())
 
 
 @router.get(
@@ -74,7 +74,7 @@ async def update_category(
         category_service: Annotated[CategoryService, Depends(get_category_domain_service)]
 ) -> CategoryModelDTO:
     category = await category_service.update_category(id_=category_id, model=category)
-    return category
+    return CategoryModelDTO(**category.model_dump())
 
 
 @router.delete(

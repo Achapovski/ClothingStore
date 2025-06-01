@@ -11,12 +11,16 @@ class CategoryModel(BaseModel, AbstractModel):
     title: str = Field(min_length=3, max_length=15)
 
 
-class CategoryCreateModelDTO(CategoryModel):
+class CategoryCreateModel(BaseModel, AbstractModel):
+    title: str = Field(min_length=3, max_length=15)
+
+
+class CategoryCreateModelDTO(CategoryCreateModel):
     pass
 
 
 class CategoryModelDTO(CategoryModel):
-    id: UUID
+    pass
 
 
 class CategoryModelDTORel(CategoryModelDTO):
